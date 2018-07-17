@@ -30,7 +30,7 @@ func main() {
 	//Generate SVG string
 	gen := patternGenerator(shapes(rand.Intn(15)), phraseGenerator(rand.Intn(48)), hexGenerator(), hexGenerator())
 	//Send SVG string to export file
-	writer("result.svg", gen)
+	writer("pattern.svg", gen)
 }
 
 //Switch between geopattern shapes
@@ -66,9 +66,10 @@ func shapes(rand int) string {
 		return "tessellation"
 	case 14:
 		return "triangles"
-	default:
+	case 15:
 		return "xes"
 	}
+	return "plaid"
 }
 
 //Generate random phrase less than 49 chars with goregen
@@ -84,7 +85,7 @@ func phraseGenerator(rand int) string {
 //Generate random hex color with goregen
 func hexGenerator() string {
 	//Create hex code
-	randomHex, err := regen.Generate("[a-f0-9]{6}")
+	randomHex, err := regen.Generate("[a-e0-9]{6}")
 	check(err)
 	randomHex = "#" + randomHex
 	return randomHex
