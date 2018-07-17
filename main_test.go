@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math/rand"
 	"regexp"
 	"strconv"
 	"testing"
@@ -59,3 +60,38 @@ func Test_hexGenerator(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkPatternGenerator(b *testing.B) {
+	//Create SVG string b.N times
+	for n := 0; n < b.N; n++ {
+		patternGenerator(shapes(rand.Intn(15)), phraseGenerator(rand.Intn(48)), hexGenerator(), hexGenerator())
+	}
+}
+
+func BenchmarkWriter(b *testing.B) {
+	//Write SVG to file b.N times
+	for n := 0; n < b.N; n++ {
+		gen := patternGenerator(shapes(rand.Intn(15)), phraseGenerator(rand.Intn(48)), hexGenerator(), hexGenerator())
+		writer("benchmark.txt", gen)
+	}
+}
+
+func BenchmarkHexGenerator(b *testing.B) {
+	//Generate random hex codes b.N times
+	for n := 0; n < b.N; n++ {
+		hexGenerator()
+	}
+}
+
+func benchmarkPharseGenerator(i int, b *testing.B) {
+	//Generate random phrases with i lengths
+	for n := 0; n < b.N; n++ {
+		phraseGenerator(i)
+	}
+}
+
+func BenchmarkPharseGenerator10(b *testing.B)   { benchmarkPharseGenerator(10, b) }
+func BenchmarkPharseGenerator20(b *testing.B)   { benchmarkPharseGenerator(20, b) }
+func BenchmarkPharseGenerator30(b *testing.B)   { benchmarkPharseGenerator(30, b) }
+func BenchmarkPharseGenerator100(b *testing.B)  { benchmarkPharseGenerator(100, b) }
+func BenchmarkPharseGenerator1000(b *testing.B) { benchmarkPharseGenerator(1000, b) }
