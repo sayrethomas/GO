@@ -22,13 +22,48 @@ func check(e error) {
 // Prints pattern's SVG string without any argument
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	gen := patternGenerator("chevrons", "Test Phrase", hexGenerator(), hexGenerator())
+	gen := patternGenerator(shapes(rand.Intn(15)), "Test Phrase", hexGenerator(), hexGenerator())
 	writer("result.svg", gen)
 
 	//fmt.Println(x)
 }
+func shapes(rand int) string {
+	switch rand {
+	case 0:
+		return "chevrons"
+	case 1:
+		return "concentric-circles"
+	case 2:
+		return "diamonds"
+	case 3:
+		return "hexagons"
+	case 4:
+		return "mosaic-squares"
+	case 5:
+		return "nested-squares"
+	case 6:
+		return "octagons"
+	case 7:
+		return "overlapping-circles"
+	case 8:
+		return "overlapping-rings"
+	case 9:
+		return "plaid"
+	case 10:
+		return "plus-signs"
+	case 11:
+		return "sine-waves"
+	case 12:
+		return "squares"
+	case 13:
+		return "tessellation"
+	case 14:
+		return "triangles"
+	default:
+		return "xes"
+	}
+}
 func hexGenerator() string {
-
 	randomHex, err1 := regen.Generate("[a-f0-9]{6}")
 	check(err1)
 	randomHex = "#" + randomHex
