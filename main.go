@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/pravj/geopattern"
@@ -22,10 +23,10 @@ func check(e error) {
 // Prints pattern's SVG string without any argument
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	gen := patternGenerator(shapes(rand.Intn(15)), "Test Phrase", hexGenerator(), hexGenerator())
+	gen := patternGenerator(shapes(rand.Intn(15)), phraseGenerator(rand.Intn(48)), hexGenerator(), hexGenerator())
 	writer("result.svg", gen)
 
-	//fmt.Println(x)
+	fmt.Println(phraseGenerator(rand.Intn(48)))
 }
 func shapes(rand int) string {
 	switch rand {
@@ -63,15 +64,21 @@ func shapes(rand int) string {
 		return "xes"
 	}
 }
+func phraseGenerator(rand int) string {
+	random := strconv.Itoa(rand)
+	randomPhrase, err := regen.Generate("[A-Z0-9a-z!?$&]{" + random + "}")
+	check(err)
+	return randomPhrase
+}
 func hexGenerator() string {
-	randomHex, err1 := regen.Generate("[a-f0-9]{6}")
-	check(err1)
+	randomHex, err := regen.Generate("[a-f0-9]{6}")
+	check(err)
 	randomHex = "#" + randomHex
 	return randomHex
 }
 func writer(fileName string, generatedString string) {
-	file, err2 := os.Create(fileName)
-	check(err2)
+	file, err := os.Create(fileName)
+	check(err)
 	writer := bufio.NewWriter(file)
 	defer file.Close()
 	fmt.Fprintln(writer, generatedString)
