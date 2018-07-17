@@ -9,10 +9,13 @@ import (
 	"strconv"
 	"time"
 
+	//Import geopattern library
 	"github.com/pravj/geopattern"
+	//Import regex library
 	"github.com/zach-klippenstein/goregen"
 )
 
+//Log errors and terminate
 func check(e error) {
 	if e != nil {
 		log.Fatal(e)
@@ -20,14 +23,17 @@ func check(e error) {
 	}
 }
 
-// Prints pattern's SVG string without any argument
+//Export geopattern to SVG file
 func main() {
+	//Seed random number generator
 	rand.Seed(time.Now().UnixNano())
+	//Generate SVG string
 	gen := patternGenerator(shapes(rand.Intn(15)), phraseGenerator(rand.Intn(48)), hexGenerator(), hexGenerator())
+	//Send SVG string to export file
 	writer("result.svg", gen)
-
-	fmt.Println(phraseGenerator(rand.Intn(48)))
 }
+
+//Switch between geopattern shapes
 func shapes(rand int) string {
 	switch rand {
 	case 0:
@@ -64,18 +70,27 @@ func shapes(rand int) string {
 		return "xes"
 	}
 }
+
+//Generate random phrase less than 49 chars with goregen
 func phraseGenerator(rand int) string {
+	//Convert random int to string
 	random := strconv.Itoa(rand)
+	//Create phrase
 	randomPhrase, err := regen.Generate("[A-Z0-9a-z!?$&]{" + random + "}")
 	check(err)
 	return randomPhrase
 }
+
+//Generate random hex color with goregen
 func hexGenerator() string {
+	//Create hex code
 	randomHex, err := regen.Generate("[a-f0-9]{6}")
 	check(err)
 	randomHex = "#" + randomHex
 	return randomHex
 }
+
+//Takes SVG string and writes it to SVG file
 func writer(fileName string, generatedString string) {
 	file, err := os.Create(fileName)
 	check(err)
@@ -84,6 +99,8 @@ func writer(fileName string, generatedString string) {
 	fmt.Fprintln(writer, generatedString)
 	writer.Flush()
 }
+
+//Creates Geopattern SVG string
 func patternGenerator(shape string, phrase string, color string, baseColor string) string {
 	args := map[string]string{"generator": shape,
 		"phrase":    phrase,
