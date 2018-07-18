@@ -6,14 +6,18 @@ Using random number generation and regular expressions design, phrases and color
 
 By running GO.exe the file pattern.svg will update to a new random design!
 
-##Libraries used##
+## Libraries used
 
-###SVG generation###
+### SVG generation
+
 "github.com/pravj/geopattern"
 
-###Reverse RegExp string generation###
+### Reverse RegExp string generation
+
 "github.com/zach-klippenstein/goregen"
 
-| Output file | pattern.svg |
-| Executable | GO.exe |
+| Requested            | Provided    |
+| -------------------- | ----------- |
+| Output file          | pattern.svg |
+| Executable           | GO.exe      |
 | Tests and Benchmarks | results.txt |
