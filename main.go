@@ -28,7 +28,8 @@ func main() {
 	//Seed random number generator
 	rand.Seed(time.Now().UnixNano())
 	//Generate SVG string
-	gen := patternGenerator(shapes(rand.Intn(15)), phraseGenerator(rand.Intn(48)), hexGenerator(), hexGenerator())
+	gen, err := patternGenerator(shapes(rand.Intn(15)), phraseGenerator(rand.Intn(48)), hexGenerator(), hexGenerator())
+	check(err)
 	//Send SVG string to export file
 	writer("pattern.svg", gen)
 }
@@ -102,11 +103,15 @@ func writer(fileName string, generatedString string) {
 }
 
 //Creates Geopattern SVG string
-func patternGenerator(shape string, phrase string, color string, baseColor string) string {
+func patternGenerator(shape string, phrase string, color string, baseColor string) (string, error) {
+	//Handle error if necessary requirement is not provided
+	if len(shape) == 0 || len(phrase) == 0 || len(color) == 0 || len(baseColor) == 0 {
+		return "Error", fmt.Errorf("One or more of the necessary requirements not provided.\nshape = %s\nphrase = %s\ncolor = %s\nbaseColor = %s", shape, phrase, color, baseColor)
+	}
 	args := map[string]string{"generator": shape,
 		"phrase":    phrase,
 		"color":     color,
 		"baseColor": baseColor}
 	gp := geopattern.Generate(args)
-	return gp
+	return gp, nil
 }

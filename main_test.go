@@ -83,15 +83,15 @@ func BenchmarkHexGenerator(b *testing.B) {
 	}
 }
 
-func benchmarkPharseGenerator(i int, b *testing.B) {
+func benchmarkPhraseGenerator(i int, b *testing.B) {
 	//Generate random phrases with i lengths
 	for n := 0; n < b.N; n++ {
 		phraseGenerator(i)
 	}
 }
 
-func BenchmarkPharseGenerator10(b *testing.B)   { benchmarkPharseGenerator(10, b) }
-func BenchmarkPharseGenerator20(b *testing.B)   { benchmarkPharseGenerator(20, b) }
-func BenchmarkPharseGenerator30(b *testing.B)   { benchmarkPharseGenerator(30, b) }
-func BenchmarkPharseGenerator100(b *testing.B)  { benchmarkPharseGenerator(100, b) }
-func BenchmarkPharseGenerator1000(b *testing.B) { benchmarkPharseGenerator(1000, b) }
+func BenchmarkPhraseGenerator10(b *testing.B)   { benchmarkPhraseGenerator(10, b) }
+func BenchmarkPhraseGenerator20(b *testing.B)   { benchmarkPhraseGenerator(20, b) }
+func BenchmarkPhraseGenerator30(b *testing.B)   { benchmarkPhraseGenerator(30, b) }
+func BenchmarkPhraseGenerator100(b *testing.B)  { benchmarkPhraseGenerator(100, b) }
+func BenchmarkPhraseGenerator1000(b *testing.B) { benchmarkPhraseGenerator(1000, b) }
